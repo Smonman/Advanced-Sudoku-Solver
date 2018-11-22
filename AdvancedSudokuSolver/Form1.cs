@@ -222,8 +222,10 @@ namespace AdvancedSudokuSolver
 			// if the input is zero throw a new exception
 			if(input == "")
 			{
-				throw new Exception("No input");
-			}
+                // throw new Exception("No input");
+                MessageBox.Show("No input given!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                return null;
+            }
 			// else try to convert every digit into an int
 			try
 			{
@@ -250,8 +252,12 @@ namespace AdvancedSudokuSolver
 		// Sets the input into the sudokuField
 		void SetValues()
 		{
-			// fills the sudoku field from the get input return
-			sudokuField.Fill(GetInput());
+            // fills the sudoku field from the get input return
+            int[,] input = GetInput();
+            if (input != null)
+            {
+			    sudokuField.Fill(input);
+            }
 			ParseGridToConsole();
 		}
 
@@ -284,11 +290,9 @@ namespace AdvancedSudokuSolver
 			// how many steps the logic part took
 			logicSteps = 0;
 
-			bool ableToProgress = true;
+			bool ableToProgress;
 			do
 			{
-				ableToProgress = false;
-
 				ableToProgress = RefreshTilesInGrid();
 
 				// eliminate process
@@ -339,7 +343,6 @@ namespace AdvancedSudokuSolver
 							logicSteps++;
 							ableToProgress = true;
 							History("Eliminated " + i + " in row " + foundTile.y);
-							//Console.WriteLine("Row eliminate");
 						}
 					}
 				}
@@ -383,14 +386,13 @@ namespace AdvancedSudokuSolver
 							logicSteps++;
 							ableToProgress = true;
 							History("Eliminated " + i + " in collum " + foundTile.x);
-							//Console.WriteLine("Col eliminate");
 						}
 					}
 				}
 
 				// After that it checks the whole grid again and updates the peers
 				// if a tile has a number in it
-				// I dont know why i is nessesary but it wont work without this
+				// I dont know why it is nessesary but it wont work without this
 
 				ableToProgress = RefreshTilesInGrid();
 
@@ -440,14 +442,13 @@ namespace AdvancedSudokuSolver
 							int blockY = (int)Math.Floor((double)foundTile.y / (double)3);
 
 							History("Eliminated " + i + " in block [" + blockX + ", " + blockY + "]");
-							//Console.WriteLine("Block eliminate");
 						}
 					}
 				}
 
 				// After that it checks the whole grid again and updates the peers
 				// if a tile has a number in it
-				// I dont know why i is nessesary but it wont work without this
+				// I dont know why it is nessesary but it wont work without this
 
 				ableToProgress = RefreshTilesInGrid();
 
@@ -778,13 +779,18 @@ namespace AdvancedSudokuSolver
 		// Draw the lines for the sudoku
 		private void groupBox2_Paint(object sender, PaintEventArgs e)
 		{
+            // Create a new pen
 			Pen p;
 
+            // calculating the margins
+            // adding 1 because of the stroke weight
 			int spaceTop = (groupBox2.Height - s * 9) / 2 + 1;
 			int spaceLeft = (groupBox2.Width - s * 9) / 2 + 1;
 
+            // drawing all the lines
 			for(int i = 0; i <= 9; i++)
 			{
+                // if the modulus of i = 0 then draw a thick line
 				if(i % 3 == 0)
 				{
 					p = new Pen(Color.Black, 2);
@@ -794,11 +800,13 @@ namespace AdvancedSudokuSolver
 					p = new Pen(Color.Black, 1);
 				}
 
+                // Drawing the line from left to right
 				Point left = new Point(spaceLeft, spaceTop + i * s);
 				Point right = new Point(groupBox2.Width - spaceLeft, spaceTop + i * s);
 
 				e.Graphics.DrawLine(p, left, right);
 
+                // and from top to bottom
 				Point top = new Point(spaceLeft + i * s, spaceTop);
 				Point bottom = new Point(spaceLeft + i * s, groupBox2.Height - spaceTop);
 
