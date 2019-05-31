@@ -31,6 +31,9 @@
             this.components = new System.ComponentModel.Container();
             this.textBox_input = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tabControl_input = new System.Windows.Forms.TabControl();
+            this.tabPage_text = new System.Windows.Forms.TabPage();
+            this.tabPage_numbers = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.button_start = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
@@ -40,6 +43,8 @@
             this.listBox_history = new System.Windows.Forms.ListBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
+            this.tabControl_input.SuspendLayout();
+            this.tabPage_text.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,10 +53,10 @@
             this.textBox_input.BackColor = System.Drawing.SystemColors.Control;
             this.textBox_input.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox_input.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_input.Location = new System.Drawing.Point(3, 17);
+            this.textBox_input.Location = new System.Drawing.Point(3, 3);
             this.textBox_input.Multiline = true;
             this.textBox_input.Name = "textBox_input";
-            this.textBox_input.Size = new System.Drawing.Size(270, 256);
+            this.textBox_input.Size = new System.Drawing.Size(437, 284);
             this.textBox_input.TabIndex = 0;
             this.toolTip1.SetToolTip(this.textBox_input, "paste your solveable sudoku in here. Replace all the empty spots with a zero.");
             // 
@@ -59,14 +64,46 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.textBox_input);
+            this.groupBox1.Controls.Add(this.tabControl_input);
             this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(276, 276);
+            this.groupBox1.Size = new System.Drawing.Size(457, 336);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Input";
+            // 
+            // tabControl_input
+            // 
+            this.tabControl_input.Controls.Add(this.tabPage_text);
+            this.tabControl_input.Controls.Add(this.tabPage_numbers);
+            this.tabControl_input.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl_input.Location = new System.Drawing.Point(3, 17);
+            this.tabControl_input.Name = "tabControl_input";
+            this.tabControl_input.SelectedIndex = 0;
+            this.tabControl_input.Size = new System.Drawing.Size(451, 316);
+            this.tabControl_input.TabIndex = 1;
+            // 
+            // tabPage_text
+            // 
+            this.tabPage_text.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage_text.Controls.Add(this.textBox_input);
+            this.tabPage_text.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_text.Name = "tabPage_text";
+            this.tabPage_text.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_text.Size = new System.Drawing.Size(443, 290);
+            this.tabPage_text.TabIndex = 0;
+            this.tabPage_text.Text = "Text";
+            // 
+            // tabPage_numbers
+            // 
+            this.tabPage_numbers.Location = new System.Drawing.Point(4, 22);
+            this.tabPage_numbers.Name = "tabPage_numbers";
+            this.tabPage_numbers.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_numbers.Size = new System.Drawing.Size(443, 291);
+            this.tabPage_numbers.TabIndex = 1;
+            this.tabPage_numbers.Text = "Numbers";
+            this.tabPage_numbers.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -74,9 +111,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.groupBox2.Location = new System.Drawing.Point(296, 12);
+            this.groupBox2.Location = new System.Drawing.Point(475, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(276, 276);
+            this.groupBox2.Size = new System.Drawing.Size(278, 336);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Output";
@@ -114,7 +151,7 @@
             // label_elapsed
             // 
             this.label_elapsed.AutoSize = true;
-            this.label_elapsed.Location = new System.Drawing.Point(296, 295);
+            this.label_elapsed.Location = new System.Drawing.Point(94, 21);
             this.label_elapsed.Name = "label_elapsed";
             this.label_elapsed.Size = new System.Drawing.Size(0, 13);
             this.label_elapsed.TabIndex = 5;
@@ -122,21 +159,25 @@
             // listBox_history
             // 
             this.listBox_history.BackColor = System.Drawing.SystemColors.Control;
+            this.listBox_history.Dock = System.Windows.Forms.DockStyle.Right;
             this.listBox_history.FormattingEnabled = true;
             this.listBox_history.HorizontalScrollbar = true;
-            this.listBox_history.Location = new System.Drawing.Point(284, 14);
+            this.listBox_history.Location = new System.Drawing.Point(279, 17);
             this.listBox_history.Name = "listBox_history";
-            this.listBox_history.Size = new System.Drawing.Size(270, 173);
+            this.listBox_history.Size = new System.Drawing.Size(459, 252);
             this.listBox_history.TabIndex = 6;
             // 
             // groupBox3
             // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.checkBox_liveUpdate);
+            this.groupBox3.Controls.Add(this.label_elapsed);
             this.groupBox3.Controls.Add(this.listBox_history);
             this.groupBox3.Controls.Add(this.button_start);
-            this.groupBox3.Location = new System.Drawing.Point(12, 291);
+            this.groupBox3.Location = new System.Drawing.Point(12, 354);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(560, 204);
+            this.groupBox3.Size = new System.Drawing.Size(741, 272);
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
             // 
@@ -144,9 +185,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 507);
+            this.ClientSize = new System.Drawing.Size(765, 638);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.label_elapsed);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.DoubleBuffered = true;
@@ -157,11 +197,12 @@
             this.ShowIcon = false;
             this.Text = "Advanced Sudoku Solver";
             this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.tabControl_input.ResumeLayout(false);
+            this.tabPage_text.ResumeLayout(false);
+            this.tabPage_text.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
 		}
 
@@ -177,6 +218,9 @@
 		private System.Windows.Forms.Label label_elapsed;
 		private System.Windows.Forms.ListBox listBox_history;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.TabControl tabControl_input;
+        private System.Windows.Forms.TabPage tabPage_text;
+        private System.Windows.Forms.TabPage tabPage_numbers;
     }
 }
 
