@@ -23,7 +23,11 @@ namespace AdvancedSudokuSolver
         NumericUpDown[,] numericInput = new NumericUpDown[9, 9];
 
         // lable size
-        int ls;
+        int ls = 23;
+
+        // numeric input field sizes
+        int nw = 21 + 10;
+        int nh = 21;
 
         // if the grid should be shown every step
         bool liveUpdate;
@@ -173,8 +177,6 @@ namespace AdvancedSudokuSolver
         // Sets up all the lables needed to show the output
         void SetupOutput()
         {
-            // Size of the lable
-            ls = 23;
             // Total width of all labels side by side
             int totalWidth = 9 * ls;
             // Total height of all labels side by side
@@ -215,11 +217,9 @@ namespace AdvancedSudokuSolver
             }
         }
 
+        // Sets up all the numeric input fields needed
         void SetInput()
         {
-            // Size of the numeric
-            int nw = 21 + 10;
-            int nh = 21;
             // Total width of all numeric side by side
             int totalWidth = 9 * nw;
             // Total height of all numeric side by side
@@ -249,13 +249,13 @@ namespace AdvancedSudokuSolver
                     n.AutoSize = false;
                     // sets the size
                     n.Size = new Size(nw, nh);
-                    // sets the location of the label
+                    // sets the location of the numeric input field
                     // so its centert inside of the groupbox
                     n.Location = new Point(x * nw + ((w - totalWidth) / 2), y * nh + ((h - totalHeight) / 2));
                     //n.BackColor = Color.Transparent;
-                    // adds the label to the groupbox
+                    // adds the numeric input field to the groupbox
                     tabControl_input.TabPages[1].Controls.Add(n);
-                    // adds the label to the output array
+                    // adds the numeric input field to the output array
                     numericInput[y, x] = n;
                 }
             }
@@ -848,8 +848,8 @@ namespace AdvancedSudokuSolver
 
             // calculating the margins
             // adding 1 because of the stroke weight
-            int spaceTop = (groupBox2.Height - ls * 9) / 2 + 1;
-            int spaceLeft = (groupBox2.Width - ls * 9) / 2 + 1;
+            int spaceTop = (groupBox2.Height - ls * 9) / 2;
+            int spaceLeft = (groupBox2.Width - ls * 9) / 2;
 
             // drawing all the lines
             for (int i = 0; i <= 9; i++)
@@ -857,7 +857,7 @@ namespace AdvancedSudokuSolver
                 // if the modulus of i = 0 then draw a thick line
                 if (i % 3 == 0)
                 {
-                    p = new Pen(Color.Black, 2);
+                    p = new Pen(Color.Black, 3);
                 }
                 else
                 {
@@ -865,16 +865,65 @@ namespace AdvancedSudokuSolver
                 }
 
                 // Drawing the line from left to right
-                Point left = new Point(spaceLeft, spaceTop + i * ls);
-                Point right = new Point(groupBox2.Width - spaceLeft, spaceTop + i * ls);
+                Point left = new Point(spaceLeft - 1, spaceTop + i * ls);
+                Point right = new Point(groupBox2.Width - spaceLeft + 1, spaceTop + i * ls);
 
                 e.Graphics.DrawLine(p, left, right);
 
                 // and from top to bottom
-                Point top = new Point(spaceLeft + i * ls, spaceTop);
-                Point bottom = new Point(spaceLeft + i * ls, groupBox2.Height - spaceTop);
+                Point top = new Point(spaceLeft + i * ls, spaceTop + 1);
+                Point bottom = new Point(spaceLeft + i * ls, groupBox2.Height - spaceTop - 1);
 
                 e.Graphics.DrawLine(p, top, bottom);
+            }
+        }
+
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            PositionOutputLables();
+            if (tabControl_input.SelectedIndex == 1)
+            {
+                PositionInputNumerics();
+            }
+        }
+
+        void PositionOutputLables()
+        {
+            int totalWidth = 9 * ls;
+            int totalHeight = 9 * ls;
+            int w = groupBox2.Width;
+            int h = groupBox2.Height;
+            for (int y = 0; y < 9; y++)
+            {
+                for (int x = 0; x < 9; x++)
+                {
+                    Label l = output[y, x];
+                    l.Location = new Point(x * ls + ((w - totalWidth) / 2), y * ls + ((h - totalHeight) / 2));
+                }
+            }
+        }
+
+        void PositionInputNumerics()
+        {
+            int totalWidth = 9 * nw;
+            int totalHeight = 9 * nh;
+            int w = tabControl_input.TabPages[1].Width;
+            int h = tabControl_input.TabPages[1].Height;
+            for (int y = 0; y < 9; y++)
+            {
+                for (int x = 0; x < 9; x++)
+                {
+                    NumericUpDown n = numericInput[y, x];
+                    n.Location = new Point(x * nw + ((w - totalWidth) / 2), y * nh + ((h - totalHeight) / 2));
+                }
+            }
+        }
+
+        private void TabControl_input_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl_input.SelectedIndex == 1)
+            {
+                PositionInputNumerics();
             }
         }
     }
